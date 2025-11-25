@@ -24,7 +24,7 @@ A collaborative filtering anime recommender system using a PyTorch Autoencoder. 
 
 2. **Download Required Files**
    - **Model:** Place `model_autoencoder_20251123_190735.pth` in the project root.
-   - **Data:** Download the [Kaggle Anime Dataset](<INSERT_LINK_HERE>) and place `anime-dataset-2023.csv` and `users-score-2023.csv` into the `data/` folder.
+   - **Data:** Download the [Kaggle Anime Dataset] https://www.kaggle.com/datasets/dbdmobile/myanimelist-dataset?resource=download and place `anime-dataset-2023.csv` and `users-score-2023.csv` into the `data/` folder.
 
 3. **Build Data Mappings**
    Run the build script to generate the sparse matrix and mapping files:
