@@ -1,0 +1,19 @@
+# Python
+.venv/
+env/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Model weights
+*.pth
+*.pt
+
+# Large data files
+data/*.csv
+data/*.npz
+data/*.zip
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
