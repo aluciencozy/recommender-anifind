@@ -1,15 +1,28 @@
 import torch 
 import pandas as pd
 import scipy.sparse
+import os
 
 from model import RecommenderAutoencoder
 
+SRC_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(SRC_DIR)
 
-anime_map = pd.read_csv('data/anime_mapping.csv')
-user_map = pd.read_csv('data/user_mapping.csv')
-anime_full = pd.read_csv('data/anime-dataset-2023.csv')
+MODEL_PATH = os.path.join(BASE_DIR, "model_autoencoder_20251123_190735.pth")
 
-R_sparse = scipy.sparse.load_npz('data/ratings_sparse_coo.npz')
+if not os.path.exists(MODEL_PATH):
+    raise FileNotFoundError(f"Model file '{MODEL_PATH}' not found.")
+
+ANIME_DATA_PATH = os.path.join(BASE_DIR, "data", "anime-dataset-2023.csv")
+ANIME_MAPPING_PATH = os.path.join(BASE_DIR, "data", "anime_mapping.csv")
+USER_MAPPING_PATH = os.path.join(BASE_DIR, "data", "user_mapping.csv")
+RATINGS_SPARSE_PATH = os.path.join(BASE_DIR, "data", "ratings_sparse_coo.npz")
+
+anime_map = pd.read_csv(ANIME_MAPPING_PATH)
+user_map = pd.read_csv(USER_MAPPING_PATH)
+anime_full = pd.read_csv(ANIME_DATA_PATH)
+
+R_sparse = scipy.sparse.load_npz(RATINGS_SPARSE_PATH)
 R_dense = torch.FloatTensor(R_sparse.toarray())
 
 anime_counts = R_dense.gt(0).sum(dim=0)
@@ -18,7 +31,7 @@ anime_map['num_ratings'] = anime_counts.tolist()
 num_users, num_anime = R_dense.shape
 
 model = RecommenderAutoencoder(num_anime, hidden_dim=128)
-model.load_state_dict(torch.load('model_autoencoder_20251123_190735.pth', map_location="cpu"))
+model.load_state_dict(torch.load(MODEL_PATH, map_location="cpu"))
 model.eval()
 
 
